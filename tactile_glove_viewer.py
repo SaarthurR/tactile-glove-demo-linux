@@ -1575,7 +1575,9 @@ function renderHands(state){
     let peak=1; mat.forEach(r=>r.forEach(v=>{if(v>peak)peak=v;}));
     for(let r=0;r<16;r++)for(let c=0;c<16;c++){
       const cell=document.getElementById(`hc-${side}-${r*16+c}`);
-      if(cell) cell.style.background=heatColor((mat[r]||[])[c]||0,peak);
+      // Mirror columns: the raw sensor grid is laid out left-right flipped vs the
+      // physical hand, so a finger press would otherwise appear on the wrong side.
+      if(cell) cell.style.background=heatColor((mat[r]||[])[15-c]||0,peak);
     }
     if(window.Hand3D){
       if(!window.Hand3D.has(side)) window.Hand3D.init(document.getElementById(`c3d-${side}`), side);
